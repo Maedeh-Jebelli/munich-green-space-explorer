@@ -11,20 +11,24 @@ fetch("data/green-spaces.geojson")
     .then(data => {
         console.log("GeoJSON loaded:", data);
 
+        // Calculate statistics
         const totalGreenSpaces = data.features.length;
 
-const parks = data.features.filter(feature =>
-    feature.properties.leisure === "park"
-);
+        const parks = data.features.filter(feature =>
+            feature.properties.leisure === "park"
+        );
 
-const gardens = data.features.filter(feature =>
-    feature.properties.leisure === "garden"
-);
-document.getElementById("total-count").textContent = totalGreenSpaces;
-document.getElementById("park-count").textContent = parks.length;
-document.getElementById("garden-count").textContent = gardens.length;
+        const gardens = data.features.filter(feature =>
+            feature.properties.leisure === "garden"
+        );
 
-        L.geoJSON(data, {
+        // Display statistics
+        document.getElementById("total-count").textContent = totalGreenSpaces;
+        document.getElementById("park-count").textContent = parks.length;
+        document.getElementById("garden-count").textContent = gardens.length;
+
+        // Create GeoJSON layer
+        const greenSpaceLayer = L.geoJSON(data, {
             style: {
                 color: "#2e7d32",
                 weight: 2,
@@ -33,8 +37,11 @@ document.getElementById("garden-count").textContent = gardens.length;
             },
 
             onEachFeature: function (feature, layer) {
-                const name = feature.properties.name || "Unnamed green space";
-                const type = feature.properties.leisure || "Unknown";
+                const name =
+                    feature.properties.name || "Unnamed green space";
+
+                const type =
+                    feature.properties.leisure || "Unknown";
 
                 layer.bindPopup(`
                     <strong>${name}</strong><br>
@@ -42,6 +49,37 @@ document.getElementById("garden-count").textContent = gardens.length;
                 `);
             }
         }).addTo(map);
+
+        // Filter function
+        function filterGreenSpaces(type) {
+            greenSpaceLayer.clearLayers();
+
+            const filteredFeatures = data.features.filter(feature => {
+                if (type === "all") {
+                    return true;
+                }
+
+                return feature.properties.leisure === type;
+            });
+
+            greenSpaceLayer.addData({
+                type: "FeatureCollection",
+                features: filteredFeatures
+            });
+        }
+
+        // Filter button events
+        document.getElementById("show-all").addEventListener("click", () => {
+            filterGreenSpaces("all");
+        });
+
+        document.getElementById("show-parks").addEventListener("click", () => {
+            filterGreenSpaces("park");
+        });
+
+        document.getElementById("show-gardens").addEventListener("click", () => {
+            filterGreenSpaces("garden");
+        });
     })
     .catch(error => {
         console.error("Error loading GeoJSON:", error);
