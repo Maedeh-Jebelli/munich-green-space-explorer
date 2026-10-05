@@ -12,14 +12,23 @@ fetch("data/green-spaces.geojson")
     console.log("GeoJSON loaded:", data);
 
     L.geoJSON(data, {
-        style: {
-            color: "#2e7d32",
-            weight: 2,
-            fillColor: "#66bb6a",
-            fillOpacity: 0.5
-        }
-    }).addTo(map);
-})
+    style: {
+        color: "#2e7d32",
+        weight: 2,
+        fillColor: "#66bb6a",
+        fillOpacity: 0.5
+    },
+
+    onEachFeature: function (feature, layer) {
+        const name = feature.properties.name || "Unnamed green space";
+        const type = feature.properties.leisure || "Unknown";
+
+        layer.bindPopup(`
+            <strong>${name}</strong><br>
+            Type: ${type}
+        `);
+    }
+}).addTo(map);
     .catch(error => {
         console.error("Error loading GeoJSON:", error);
     });
