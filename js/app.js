@@ -22,10 +22,31 @@ fetch("data/green-spaces.geojson")
             feature.properties.leisure === "garden"
         );
 
+        function setActiveButton(activeButton) {
+    const buttons = document.querySelectorAll("#filters button");
+
+    buttons.forEach(button => {
+        button.classList.remove("active");
+    });
+
+    activeButton.classList.add("active");
+}
+
         // Display statistics
-        document.getElementById("total-count").textContent = totalGreenSpaces;
-        document.getElementById("park-count").textContent = parks.length;
-        document.getElementById("garden-count").textContent = gardens.length;
+        document.getElementById("show-all").addEventListener("click", event => {
+    filterGreenSpaces("all");
+    setActiveButton(event.target);
+});
+
+document.getElementById("show-parks").addEventListener("click", event => {
+    filterGreenSpaces("park");
+    setActiveButton(event.target);
+});
+
+document.getElementById("show-gardens").addEventListener("click", event => {
+    filterGreenSpaces("garden");
+    setActiveButton(event.target);
+});
 
         // Create GeoJSON layer
         const greenSpaceLayer = L.geoJSON(data, {
