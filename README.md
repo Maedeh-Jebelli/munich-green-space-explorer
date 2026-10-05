@@ -8,7 +8,7 @@ The application combines **Leaflet, JavaScript, GeoJSON, and OpenStreetMap data*
 
 The application is deployed with GitHub Pages.
 
-[Open Munich Green Space Explorer](YOUR-GITHUB-PAGES-URL)
+[Open Munich Green Space Explorer](https://maedeh-jebelli.github.io/munich-green-space-explorer/)
 
 ## Project Overview
 
