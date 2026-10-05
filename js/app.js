@@ -11,6 +11,19 @@ fetch("data/green-spaces.geojson")
     .then(data => {
         console.log("GeoJSON loaded:", data);
 
+        const totalGreenSpaces = data.features.length;
+
+const parks = data.features.filter(feature =>
+    feature.properties.leisure === "park"
+);
+
+const gardens = data.features.filter(feature =>
+    feature.properties.leisure === "garden"
+);
+document.getElementById("total-count").textContent = totalGreenSpaces;
+document.getElementById("park-count").textContent = parks.length;
+document.getElementById("garden-count").textContent = gardens.length;
+
         L.geoJSON(data, {
             style: {
                 color: "#2e7d32",
