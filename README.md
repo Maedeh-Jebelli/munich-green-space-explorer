@@ -10,6 +10,10 @@ The application is deployed with GitHub Pages.
 
 [Open Munich Green Space Explorer](https://maedeh-jebelli.github.io/munich-green-space-explorer/)
 
+## Preview
+
+![Munich Green Space Explorer](images/munich-green-space-explorer.png)
+
 ## Project Overview
 
 Munich Green Space Explorer was developed as a lightweight Web GIS application for visualizing and exploring urban green-space data directly in the browser.
